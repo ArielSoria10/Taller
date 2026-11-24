@@ -17,9 +17,10 @@ x = np.linspace(0.1, 3, 400)
 
 plt.figure(figsize=(8, 5))
 plt.plot(x, np.log(x), label=r"$\ln(x)$", color="black", linewidth=2)
-
-for grado in [1, 2, 3, 6]:
-  plt.plot(x, taylor_ln(x, grado), linestyle="--", label=f"$P_{grado}(x)$")
+plt.plot(x, taylor_ln(x, 1), linestyle="--", label=r"$P_1(x)$")
+plt.plot(x, taylor_ln(x, 2), linestyle="--", label=r"$P_2(x)$")
+plt.plot(x, taylor_ln(x, 3), linestyle="--", label=r"$P_3(x)$")
+plt.plot(x, taylor_ln(x, 6), linestyle="--", label=r"$P_6(x)$")
 
 plt.scatter([1], [0], color="red", zorder=5, label="Centro (1, 0)")
 plt.ylim(-3, 2)
@@ -31,8 +32,8 @@ plt.grid(True)
 plt.show()
 
 grados = np.arange(1, 31)
-error_15 = [abs(np.log(1.5) - taylor_ln(1.5, n)) for n in grados]
-error_25 = [abs(np.log(2.5) - taylor_ln(2.5, n)) for n in grados]
+error_15 = np.abs(np.log(1.5) - np.vectorize(taylor_ln)(1.5, grados))
+error_25 = np.abs(np.log(2.5) - np.vectorize(taylor_ln)(2.5, grados))
 cota_15 = (0.5 ** (grados + 1)) / (grados + 1)
 
 plt.figure(figsize=(8, 5))
